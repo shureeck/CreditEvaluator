@@ -23,10 +23,15 @@ public class CreditController {
         double amount = request.getAmount();
         long period = request.getPeriod();
         Calculator calculator = new CalculatorImpl(personalCode, amount, period);
-        Response response = calculator.calculate();
-        model.addAttribute("response", response);
+        try {
+            Response response = calculator.calculate();
+            model.addAttribute("response", response);
+            return "decision";
+        } catch (RuntimeException exception) {
+            model.addAttribute("message", exception.getMessage());
+            return "error";
+        }
 
-        return "decision";
 
     }
 }

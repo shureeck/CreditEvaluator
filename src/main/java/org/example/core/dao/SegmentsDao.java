@@ -37,7 +37,8 @@ public class SegmentsDao implements Dao {
                 return result;
             } else {
                 log.error(LoggerMessages.getMessage("SegmentsDao.getCreditModifier.notfound", String.valueOf(id)));
-                return -1;
+                throw new RuntimeException(LoggerMessages.getMessage("SegmentsDao.getCreditModifier.notfound",
+                        String.valueOf(id)));
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
