@@ -30,8 +30,7 @@ public class CalculatorImpl implements Calculator, Validator {
     @Override
     public Response calculate() {
         validate();
-        Dao segmentDao = new SegmentsDao();
-        long creditModifier = segmentDao.getCreditModifier(personalCode);
+        long creditModifier = getCreditModifier();
         log.info(LoggerMessages.getMessage("CalculatorImpl.calculate.input",
                 String.valueOf(period), String.valueOf(amount), String.valueOf(personalCode)));
         double maxSumm = getMaxSum(creditModifier);
@@ -54,6 +53,12 @@ public class CalculatorImpl implements Calculator, Validator {
         return period * creditModifier;
     }
 
+    private long getCreditModifier() {
+        Dao segmentDao = new SegmentsDao();
+        return segmentDao.getCreditModifier(personalCode);
+
+    }
+
     @Override
     public boolean validate() throws RuntimeException {
         if (period < minPeriod || period > maxPeriod) {
@@ -68,6 +73,6 @@ public class CalculatorImpl implements Calculator, Validator {
             throw new RuntimeException(LoggerMessages.getMessage("CalculatorImpl.validate.amount",
                     String.valueOf(minAmount), String.valueOf(maxAmount)));
         }
-        return false;
+        return true;
     }
 }

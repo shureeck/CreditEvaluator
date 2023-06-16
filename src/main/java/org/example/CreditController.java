@@ -17,6 +17,12 @@ public class CreditController {
         return "evaluator";
     }
 
+    @GetMapping("/")
+    public String showIndexPage() {
+        return "redirect:evaluator";
+    }
+
+
     @PostMapping("/decision")
     public String showDecision(@ModelAttribute("request") Request request, Model model) {
         long personalCode = request.getPersonalCode();
