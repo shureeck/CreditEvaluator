@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.example.core.dao.Dao;
+import org.example.core.dao.SegmentsDao;
 import org.example.core.entities.Response;
 import org.example.core.enums.Decision;
 import org.example.core.utils.LoggerMessages;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ResourceBundle;
 
@@ -25,7 +28,8 @@ public class CalculatorImpl implements Calculator {
 
     @Override
     public Response calculate() {
-        long creditModifier = personalCode; //:TODO Should be implemented with dao
+        Dao segmentDao = new SegmentsDao();
+        long creditModifier = segmentDao.getCreditModifier(personalCode);
         log.info(LoggerMessages.getMessage("CalculatorImpl.calculate.input",
                 String.valueOf(period), String.valueOf(amount), String.valueOf(personalCode)));
         double maxSumm = getMaxSum(creditModifier);
@@ -45,7 +49,6 @@ public class CalculatorImpl implements Calculator {
     }
 
     private double getMaxSum(long creditModifier) {
-        //   double result = period * creditModifier / amount; // :TODO Should be removed. Checked task
         return period * creditModifier;
     }
 }
