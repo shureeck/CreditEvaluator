@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Credit evaluator.Decision</title>
+</head>
+<body>
+<h2>Credit evaluator. Decision</h2>
+
+<div>Personal Code:
+    <div th:text="${request.getPersonalCode()}"/>
+</div>
+<div>Decision:
+    <div th:text="${response.getDecision()}"/>
+</div>
+
+<div>Requested amount:
+    <div th:text="${request.getAmount()}"/>
+</div>
+
+<div>Approved amount:
+    <div th:text="${response.getAmount()}"/>
+</div>
+<div>Period:
+    <div th:text="${request.getPeriod()}"/>
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Credit evaluator</title>
+</head>
+<body>
+<h2>Credit evaluator</h2>
+<form th:method="POST" th:action="@{/decision}" th:object="${request}">
+    <label for="pid">Personal ID:</label>
+    <input type="text" th:field="*{personalCode}" id="pid"><br><br>
+    <label for="amount">Amount:</label>
+    <input type="text" th:field="*{amount}" id="amount"><br><br>
+    <label for="period">Period:</label>
+    <input type="text" th:field="*{period}" id="period"><br><br>
+    <input type="submit" value="Evaluate">
+</form>
+</body>
+</html>
