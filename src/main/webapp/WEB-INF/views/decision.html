@@ -2,27 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="ISO-8859-1">
+	<link rel="stylesheet" href="/resources/decision_style.css">
+	<link rel="stylesheet" href="decision_style.css">
+
     <title>Credit evaluator.Decision</title>
 </head>
 <body>
 <h2>Credit evaluator. Decision</h2>
-
-<div>Personal Code:
-    <div th:text="${request.getPersonalCode()}"/>
+ <div class="decision">
+<div class="label">Personal Code:
+    <div class="text" th:text="${request.getPersonalCode()}"/>
 </div>
-<div>Decision:
-    <div th:text="${response.getDecision()}"/>
-</div>
-
-<div>Requested amount:
-    <div th:text="${request.getAmount()}"/>
+<div class="label">Decision:
+    <div id="decision" class="text" th:text="${response.getDecision()}"/>
 </div>
 
-<div>Approved amount:
-    <div th:text="${response.getAmount()}"/>
+<div class="label">Requested amount:
+    <div class="text" th:text="${request.getAmount()}"/>
 </div>
-<div>Period:
-    <div th:text="${request.getPeriod()}"/>
+
+<div class="label">Approved amount:
+    <div class="text" th:text="${response.getAmount()}"/>
 </div>
+<div class="label">Period:
+    <div class="text" th:text="${request.getPeriod()}"/>
+</div>
+</div>
+<script>
+function changeColor() {
+	const div = document.getElementById('decision');
+  console.log(div.textContent );
+  console.log(div);
+  if (div.textContent  === "APPROVED") {
+	div.style.backgroundColor = '#CCFFE5';
+	div.style.borderColor = '#00FF00';
+    return;
+  }if (div.textContent  === "DECLINED") {
+  	div.style.backgroundColor = '#FFCCCC';
+	div.style.borderColor = '#FF0000';
+    return;
+  }
+}
+changeColor();
+	</script>
 </body>
 </html>
