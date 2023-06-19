@@ -16,8 +16,8 @@ public class CalculatorImplTest {
         CalculatorImpl calculator = new CalculatorImpl(300, 2000, 12, segmentDao);
         Mockito.doReturn(100L).when(segmentDao).getCreditModifier(300L);
         Response actual = calculator.calculate();
-        Assert.assertEquals(Decision.DECLINED, actual.getDecision());
-        Assert.assertEquals(0, actual.getAmount(), 0);
+        Assert.assertEquals(Decision.APPROVED, actual.getDecision());
+        Assert.assertEquals(2000, actual.getAmount(), 0);
 
     }
 
@@ -93,12 +93,12 @@ public class CalculatorImplTest {
     public void validateTestPeriodMoreThresholdTest() {
         CalculatorImpl calculator = new CalculatorImpl(300, 9000, 61, segmentDao);
         RuntimeException exception = Assert.assertThrows(RuntimeException.class, () -> calculator.calculate());
-        Assert.assertEquals(exception.getMessage(),"Period should be more than 12.0 and less than 60.0");
+        Assert.assertEquals(exception.getMessage(),"Period should be more than 12 and less than 60");
     }
     @Test
     public void validateTestPeriodLessThresholdTest() {
         CalculatorImpl calculator = new CalculatorImpl(300, 9000, 11, segmentDao);
         RuntimeException exception = Assert.assertThrows(RuntimeException.class, () -> calculator.calculate());
-        Assert.assertEquals(exception.getMessage(),"Period should be more than 12.0 and less than 60.0");
+        Assert.assertEquals(exception.getMessage(),"Period should be more than 12 and less than 60");
     }
 }

@@ -15,5 +15,8 @@ public class Response {
     @Getter
     @Setter
     private double amount;
+    @Getter
+    @Setter
+    private long period;
 
 }

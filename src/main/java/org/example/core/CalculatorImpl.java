@@ -18,8 +18,8 @@ public class CalculatorImpl implements Calculator, Validator {
     private static final ResourceBundle resources = ResourceBundle.getBundle("constants");
     private static final double minAmount = Double.parseDouble(resources.getString("minAmount"));
     private static final double maxAmount = Double.parseDouble(resources.getString("maxAmount"));
-    private static final double minPeriod = Double.parseDouble(resources.getString("minPeriod"));
-    private static final double maxPeriod = Double.parseDouble(resources.getString("maxPeriod"));
+    private static final long minPeriod = Long.parseLong(resources.getString("minPeriod"));
+    private static final long maxPeriod = Long.parseLong(resources.getString("maxPeriod"));
 
     @NonNull
     private long personalCode;
@@ -31,22 +31,47 @@ public class CalculatorImpl implements Calculator, Validator {
     public Response calculate() {
         validate();
         long creditModifier = getCreditModifier();
+        if (creditModifier == 0) {
+            log.info(LoggerMessages.getMessage("CalculatorImpl.calculate.debt"));
+            return new Response(Decision.DECLINED, 0, period);
+        }
         log.info(LoggerMessages.getMessage("CalculatorImpl.calculate.input",
                 String.valueOf(period), String.valueOf(amount), String.valueOf(personalCode)));
         double maxSumm = getMaxSum(creditModifier);
         if (maxSumm < minAmount) {
-            log.info(LoggerMessages.getMessage("CalculatorImpl.calculate.decision",
-                    "0", Decision.DECLINED.name()));
-            return new Response(Decision.DECLINED, 0);
+            log.info(LoggerMessages.getMessage("CalculatorImpl.calculate.period"));
+            return getAlternativePeriod(creditModifier);
         } else if (maxSumm <= maxAmount) {
             log.info(LoggerMessages.getMessage("CalculatorImpl.calculate.decision",
-                    String.valueOf(maxSumm), Decision.APPROVED.name()));
-            return new Response(Decision.APPROVED, maxSumm);
+                    String.valueOf(maxSumm), Decision.APPROVED.name(), String.valueOf(period)));
+            return new Response(Decision.APPROVED, maxSumm, period);
         } else {
             log.info(LoggerMessages.getMessage("CalculatorImpl.calculate.decision",
-                    String.valueOf(maxAmount), Decision.APPROVED.name()));
-            return new Response(Decision.APPROVED, maxAmount);
+                    String.valueOf(maxAmount), Decision.APPROVED.name(), String.valueOf(period)));
+            return new Response(Decision.APPROVED, maxAmount, period);
         }
+    }
+
+    private Response getAlternativePeriod(long creditModifier) {
+        long alternativePeriod = (long) (amount / creditModifier);
+        if (alternativePeriod >= minPeriod) {
+            if (alternativePeriod > maxPeriod) {
+                period = maxPeriod;
+                return calculate();
+            }
+            log.info(LoggerMessages.getMessage("CalculatorImpl.calculate.decision",
+                    String.valueOf(amount), Decision.APPROVED.name(), String.valueOf(alternativePeriod)));
+            return new Response(Decision.APPROVED, amount, alternativePeriod);
+        }
+        alternativePeriod = (long) (minAmount / creditModifier);
+        if (alternativePeriod >= minPeriod) {
+            log.info(LoggerMessages.getMessage("CalculatorImpl.calculate.decision",
+                    String.valueOf(minAmount), Decision.APPROVED.name(), String.valueOf(alternativePeriod)));
+            return new Response(Decision.APPROVED, minAmount, alternativePeriod);
+        }
+        log.info(LoggerMessages.getMessage("CalculatorImpl.calculate.decision",
+                String.valueOf(0), Decision.DECLINED.name(), String.valueOf(period)));
+        return new Response(Decision.DECLINED, 0, period);
     }
 
     private double getMaxSum(long creditModifier) {

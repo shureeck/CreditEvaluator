@@ -40,7 +40,5 @@ public class CreditController {
             model.addAttribute("message", exception.getMessage());
             return "error";
         }
-
-
     }
 }
