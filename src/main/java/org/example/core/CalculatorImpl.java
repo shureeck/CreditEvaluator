@@ -5,7 +5,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.example.core.dao.Dao;
-import org.example.core.dao.SegmentsDao;
 import org.example.core.entities.Response;
 import org.example.core.enums.Decision;
 import org.example.core.utils.LoggerMessages;
@@ -26,6 +25,7 @@ public class CalculatorImpl implements Calculator, Validator {
     private long personalCode;
     private double amount;
     private long period;
+    private Dao segmentDao;
 
     @Override
     public Response calculate() {
@@ -54,7 +54,6 @@ public class CalculatorImpl implements Calculator, Validator {
     }
 
     private long getCreditModifier() {
-        Dao segmentDao = new SegmentsDao();
         return segmentDao.getCreditModifier(personalCode);
 
     }

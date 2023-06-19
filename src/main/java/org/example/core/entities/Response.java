@@ -15,4 +15,5 @@ public class Response {
     @Getter
     @Setter
     private double amount;
+
 }

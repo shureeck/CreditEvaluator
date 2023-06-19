@@ -3,7 +3,6 @@ package org.example.core.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import lombok.Lombok;
 import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

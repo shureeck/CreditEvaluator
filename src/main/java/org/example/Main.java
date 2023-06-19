@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.core.CalculatorImpl;
+import org.example.core.dao.SegmentsDao;
 import org.example.core.entities.Request;
 import org.example.core.utils.CreditUtils;
 
@@ -12,7 +13,7 @@ public class Main {
                 "    \"period\": 30\n" +
                 "\n" +
                 "}";
-        CalculatorImpl calculator = new CalculatorImpl(300,11000, 60);
+        CalculatorImpl calculator = new CalculatorImpl(300,11000, 60, new SegmentsDao());
         calculator.calculate();
         Request e = CreditUtils.readJson(json, Request.class);
         int i = 0;
