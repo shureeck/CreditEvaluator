@@ -68,6 +68,23 @@ and then for minimal amount. If alternative period not found customer gets decli
 
 If an error occurs, the client will receive a message on the UI. 
 
+## Deploying
+
+> To build and deploy application you should have installed **Java 17+** and **maven**
+
+1. Download and install [Apache tomcat](https://tomcat.apache.org/download-10.cgi).
+2. Clone application from repository.
+3. Open command prompt and go to project root directory (**~/CreditEvaluator**).
+4. Execute command **mvn install**.
+5. You can find the build in the following path  **~/CreditEvaluator/target/CreditEvaluator-1.0.war** after installation finished.
+6. Copy file **CreditEvaluator-1.0.war** to directory **webapps** in the tomcat root. (For example: *C:\apache-tomcat-10.1.10\webapps\CreditEvaluator-1.0.war*).
+7. Run tomcat server.  (Execute *C:\apache-tomcat-10.1.10\bin\startup.bat*).
+8. Open browser and go to the web page: http://localhost:8080/CreditEvaluator-1.0
+
+> Application has been checked on Tomcat 10. On other versions and other servers verification was not carried out.
+
+Built *.war package you cna find in the repository in the **bin** folder.
+
 ## User interface 
 
 ![](images/fronend.png)
