@@ -41,7 +41,7 @@ const inputs = document.getElementsByTagName("input");
 disableField();
 for (let input of inputs) {
 	console.log(input);
-  input.addEventListener('change', disableField);
+  input.addEventListener('input', disableField);
 }
 	</script>
 </body>
