@@ -1,19 +1,20 @@
 package org.example.core;
 
-import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.example.core.dao.Dao;
 import org.example.core.entities.Response;
 import org.example.core.enums.Decision;
 import org.example.core.utils.LoggerMessages;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ResourceBundle;
 
 @Log4j2
 @AllArgsConstructor
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__({@Autowired}))
+@Component
 public class CalculatorImpl implements Calculator, Validator {
     private static final ResourceBundle resources = ResourceBundle.getBundle("constants");
     private static final double minAmount = Double.parseDouble(resources.getString("minAmount"));
@@ -21,10 +22,13 @@ public class CalculatorImpl implements Calculator, Validator {
     private static final long minPeriod = Long.parseLong(resources.getString("minPeriod"));
     private static final long maxPeriod = Long.parseLong(resources.getString("maxPeriod"));
 
-    @NonNull
+    @Setter
     private long personalCode;
+    @Setter
     private double amount;
+    @Setter
     private long period;
+    @NonNull
     private Dao segmentDao;
 
     @Override

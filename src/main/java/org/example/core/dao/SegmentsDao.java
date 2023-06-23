@@ -1,5 +1,6 @@
 package org.example.core.dao;
 
+import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.example.core.utils.LoggerMessages;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Log4j2
+@NoArgsConstructor
 public class SegmentsDao implements Dao {
     private static final ResourceBundle resources = ResourceBundle.getBundle("constants");
 

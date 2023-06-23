@@ -1,9 +1,7 @@
 package org.example;
 
-import org.example.core.Calculator;
+import lombok.AllArgsConstructor;
 import org.example.core.CalculatorImpl;
-import org.example.core.dao.Dao;
-import org.example.core.dao.SegmentsDao;
 import org.example.core.entities.Request;
 import org.example.core.entities.Response;
 import org.springframework.stereotype.Controller;
@@ -13,7 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@AllArgsConstructor
 public class CreditController {
+    private final CalculatorImpl calculator;
+
     @GetMapping("/evaluator")
     public String showPage(@ModelAttribute Request request) {
         return "evaluator";
@@ -27,11 +28,7 @@ public class CreditController {
 
     @PostMapping("/decision")
     public String showDecision(@ModelAttribute("request") Request request, Model model) {
-        long personalCode = request.getPersonalCode();
-        double amount = request.getAmount();
-        long period = request.getPeriod();
-        Dao dao = new SegmentsDao();
-        Calculator calculator = new CalculatorImpl(personalCode, amount, period, dao);
+        initCalculator(request);
         try {
             Response response = calculator.calculate();
             model.addAttribute("response", response);
@@ -40,5 +37,11 @@ public class CreditController {
             model.addAttribute("message", exception.getMessage());
             return "error";
         }
+    }
+
+    private void initCalculator(Request request) {
+        calculator.setPersonalCode(request.getPersonalCode());
+        calculator.setPeriod(request.getPeriod());
+        calculator.setAmount(request.getAmount());
     }
 }
